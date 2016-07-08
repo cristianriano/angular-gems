@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="store">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="application.css" />
+    <script type="text/javascript" src="angular.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <title>Crafted Gems</title>
+  </head>
+  <!-- Directivas: anotaciones HTML que disparan comportamiento Javascript
+        El controller valido en esta pagina           -->
+  <body class="list-group" ng-controller="StoreController as store">
+    <header>
+      <h1 class="text-center">Flatlander Crafted Gems</h1>
+      <h2 class="text-center">– an Angular store –</h2>
+    </header>
+
+    <!--  Product Container  -->
+    <div class="list-group-item" ng-repeat="product in store.products">
+      <h3>{{product.name}} <em class="pull-right">{{product.price | currency}}</em></h3>
+        <!-- Filtros: Los filtros permiten aplicar formatos o reglas a un texto.
+             Se aplican como pipes (..|..|..)
+           Algunos son: | date: 'MM/dd/yyyy - h:mma'
+                        | uppercase o lowercase
+                        | limitTo: 3 (Por ejemplo para la directiva ng-repeat)
+                        | orderBy: '-price' (Productos organizado descendiente por el menos) -->
+
+        <!-- Image Gallery  -->
+        <product-gallery></product-gallery>
+
+        <!-- Tabs -->
+        <product-tabs></product-tabs>
+
+      </div>
+
+  </body>
+</html>
