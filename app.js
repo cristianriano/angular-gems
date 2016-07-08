@@ -5,16 +5,31 @@
     Modulo: Donde estan los componentes de la app
       1   Libreria angular
       2   Nombre del modulo
-      3   Array con Dependencies, vacio
+      3   Array con Dependencies, en este caso el modulo donde estan las directivas del producto
   */
 
   /*
     Controller: Donde esta el comportamiento
     La funcion del controller se ejcuta cuando el se llama
+    Si se usan servicios, el segundo parametro del controller se vuelve con array, donde se declaran los servicios y luego
+    se pasan a la funcion como parametros (Dependency Injection)
   */
-  app.controller('StoreController', function(){
-    this.products = gems;
-  });
+  app.controller('StoreController', ["$http", function($http){
+    var store = this;
+    store.products = [];
+    /*
+      El servicio $http de Angular brinda comunicacion para peticiones AJAX y pareseo de datos JSON
+        $http({ method: 'GET', url: '/products.json' })
+        $http.post('/products.json', { param: 'value', apiKey: 'myApiKey' })
+      Otros servicios de Angular son $log y $filter
+
+      El servicio retorna una Promise con .success() y .error()
+    */
+    $http.get('/products.json').success(function(data){
+      store.products = data;
+    });
+
+  }]);
 
   app.controller('ReviewController', function() {
     this.review = {};

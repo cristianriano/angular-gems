@@ -12,8 +12,9 @@
 
 <!--  Review Form -->
 <!-- La directiva ng-submit ejecuta un metodo al presionar submit, en este caso manda el producto actual para q se actualice la review
-     Para activar las validaciones de Angular es necesario desactivar las que trae HTML5 por defecto-->
-<form name="reviewForm" ng-controller="ReviewController as reviewCtrl" ng-submit="reviewCtrl.addReview(product)">
+     Para activar las validaciones de Angular es necesario desactivar las que trae HTML5 por defecto
+     Los atibutos u objetos con el signo $ es por que son definidos por Angular-->
+<form name="reviewForm" ng-controller="ReviewController as reviewCtrl" ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)" novalidate>
 
   <!--  Live Preview -->
   <blockquote >
@@ -33,7 +34,7 @@
               .ng-valid
               .ng-invalid
               -->
-    <select ng-model="reviewCtrl.review.stars" class="form-control" ng-options="stars for stars in [5,4,3,2,1]" title="Stars">
+    <select ng-model="reviewCtrl.review.stars" class="form-control" ng-options="stars for stars in [5,4,3,2,1]" title="Stars" required>
       <option value>Rate the Product</option>
     </select>
   </fieldset>
@@ -41,7 +42,7 @@
     <textarea ng-model="reviewCtrl.review.body" class="form-control" placeholder="Write a short review of the product..." title="Review"></textarea>
   </fieldset>
   <fieldset class="form-group">
-    <input ng-model="reviewCtrl.review.author" type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email" />
+    <input ng-model="reviewCtrl.review.author" type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email" required />
   </fieldset>
   <fieldset class="form-group">
     <input type="submit" class="btn btn-primary pull-right" value="Submit Review" />
