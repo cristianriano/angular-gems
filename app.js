@@ -1,4 +1,5 @@
 (function(){
+  const URL = "http://localhost:8888";
   //          1               2      3
   var app = angular.module('store', ['store-directives']);
   /*
@@ -14,7 +15,7 @@
     Si se usan servicios, el segundo parametro del controller se vuelve con array, donde se declaran los servicios y luego
     se pasan a la funcion como parametros (Dependency Injection)
   */
-  app.controller('StoreController', ["$http", function($http){
+  app.controller('StoreController', function($http){
     var store = this;
     store.products = [];
     /*
@@ -25,11 +26,23 @@
 
       El servicio retorna una Promise con .success() y .error()
     */
-    $http.get('/products.json').success(function(data){
+    $http.get(URL+'/gems')
+      .success(function(data){
+        console.log(data);
+        store.products = data;
+      })
+      .error(function(err){
+        console.log(err);
+      });
+    /*$http.get(URL+'/gems').then(function success(data){
+      console.log(data);
       store.products = data;
-    });
+    }, function error(err){
+      alert("Error");
+      console.log(err);
+    });*/
 
-  }]);
+  });
 
   app.controller('ReviewController', function() {
     this.review = {};
