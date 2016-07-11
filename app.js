@@ -15,9 +15,8 @@
     Si se usan servicios, el segundo parametro del controller se vuelve con array, donde se declaran los servicios y luego
     se pasan a la funcion como parametros (Dependency Injection)
   */
-  app.controller('StoreController', function($http){
-    var store = this;
-    store.products = [];
+  app.controller('StoreController', function($http, $scope){
+    $scope.products = [];
     /*
       El servicio $http de Angular brinda comunicacion para peticiones AJAX y pareseo de datos JSON
         $http({ method: 'GET', url: '/products.json' })
@@ -29,7 +28,7 @@
     $http.get(URL+'/gems')
       .success(function(data){
         console.log(data);
-        store.products = data;
+        $scope.products = data;
       })
       .error(function(err){
         console.log(err);
@@ -44,15 +43,36 @@
 
   });
 
-  app.controller('ReviewController', function() {
+  app.controller('ReviewController', function($http, $scope) {
     this.review = {};
 
     this.addReview = function(product) {
       this.review.createdOn = Date.now();
-      // Añade el review del controller (el del form) a los reviews del producto
+
+      // Actualiza los reviews del lado del servidor
       product.reviews.push(this.review);
+
+      // Peticion POST para almacenar el review
+      var req = {
+        method: 'POST',
+        url: URL+'/gems/'+product.id+'/reviews',
+        headers: {
+          'content-type': 'application/json'
+        },
+        data: this.review
+      };
+
+      $http(req)
+      .success(function(data){
+        console.log(data);
+      })
+      .error(function(err){
+        console.log(err);
+      });
+
       // Limpia el formulario al presionar submit
       this.review = {};
+
     };
   });
 
